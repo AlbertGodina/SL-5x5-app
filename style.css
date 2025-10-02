@@ -1,27 +1,58 @@
-/* Estils per als selectors de rutina */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Alineat a dalt per deixar espai */
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px 0;
+    background-color: #282c34; /* Fons fosc */
+    color: white;
+    text-align: center;
+}
+
+.app-container {
+    width: 95%;
+    max-width: 600px; /* Ideal per a mòbils */
+}
+
+h1 {
+    font-size: 2em;
+    color: #98C379; /* Verd */
+    margin-bottom: 25px;
+}
+
+/* Selector de Rutina */
 .routine-selector {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .routine-selector button {
     padding: 15px 25px;
     font-size: 1.2em;
-    margin: 0 10px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
     background-color: #5C6370; /* Gris */
     color: white;
+    transition: background-color 0.3s;
 }
 
 .routine-selector button.active {
     background-color: #61afef; /* Blau, per indicar la selecció */
     color: black;
+    font-weight: bold;
 }
 
-/* Estils pel contenidor d'exercicis */
+/* Contenidor dels Exercicis */
 #exercises-container {
-    padding: 20px 0;
-    width: 90%;
-    max-width: 500px;
-    text-align: center;
+    padding: 10px 0;
+}
+
+.placeholder-text {
+    font-size: 1.2em;
+    color: #888;
 }
 
 .exercise-group {
@@ -32,32 +63,60 @@
 }
 
 .exercise-group h3 {
-    font-size: 2em;
-    color: #98C379; /* Verd per destacar el nom de l'exercici */
-    margin-top: 0;
-    margin-bottom: 15px;
+    font-size: 1.8em;
+    color: #98C379; 
+    margin: 0 0 10px 0;
 }
 
-/* Nou estil per a la casella de 'sèrie' dins d'un exercici */
+/* Estil per a cada casella de Sèrie */
 .series-item-dynamic {
-    /* Estils similars a 'series-item' anterior, però més petits si cal */
     padding: 10px;
     margin: 5px;
     font-size: 1.2em;
-    display: inline-block; /* Per posar-les en fila */
+    display: inline-block;
     background-color: #5C6370;
     border-radius: 5px;
     cursor: pointer;
     user-select: none;
-}
-
-/* Estil per a la casella EXTRA */
-.series-item-dynamic.extra-box {
-    background-color: #E5C07B; /* Color groc/taronja per a destacar l'extra */
-    color: black;
+    transition: background-color 0.2s;
 }
 
 .series-item-dynamic.completed {
-    background-color: #98C379;
+    background-color: #E06C75; /* Vermell/Rosa per a "fet" */
+    color: black;
+    font-weight: bold;
+}
+
+.series-item-dynamic.extra-box {
+    background-color: #E5C07B; /* Grog, per a casella especial */
+    color: black;
+}
+
+/* Temporitzador */
+.timer-container {
+    margin-top: 40px;
+    padding: 20px;
+    border-radius: 15px;
+    background-color: #3c4048;
+}
+
+.timer-container h2 {
+    color: #61afef;
+    margin-top: 0;
+}
+
+#timer-display {
+    font-size: 6em; /* Gran i visible */
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 12px 25px;
+    font-size: 1.2em;
+    margin: 5px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #61afef; 
     color: black;
 }

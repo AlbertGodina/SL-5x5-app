@@ -63,3 +63,40 @@ function resetTimer() {
 resetTimer();
 startButton.addEventListener('click', startTimer);
 resetButton.addEventListener('click', resetTimer);
+
+// --- Configuració de Rutines ---
+const ROUTINES = {
+    A: ['SQUAT (5x5)', 'BENCH PRESS (5x5)', 'DEADLIFT (1x5)'],
+    B: ['SQUAT (5x5)', 'MILITARY PRESS (5x5)', 'DEADLIFT (1x5)']
+};
+
+const routineAButton = document.getElementById('routine-a-button');
+const routineBButton = document.getElementById('routine-b-button');
+const exercisesContainer = document.getElementById('exercises-container');
+
+// (Deixar aquí les funcions createExerciseHTML i loadRoutine, sense canvis)
+// ...
+
+// Funció clau per marcar la sèrie
+function markSeriesCompletedDynamic(event) {
+    const seriesElement = event.target;
+    
+    // Si ja està feta, no fem res
+    if (seriesElement.classList.contains('completed')) {
+        return; 
+    }
+    
+    seriesElement.classList.add('completed');
+    seriesElement.textContent = '✔️'; 
+    
+    // **INTEGRACIÓ CLAU: Temporitzador**
+    if (!seriesElement.classList.contains('extra-box')) {
+        // 1. Reiniciar el temporitzador al valor inicial de 90s
+        resetTimer(); 
+        // 2. Iniciar el compte enrere
+        startTimer();
+    }
+}
+
+// (Deixar aquí la resta de lògica de càrrega i assignació d'esdeveniments)
+// ...

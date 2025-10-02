@@ -1,16 +1,32 @@
-<div class="routine-selector">
-    <button id="routine-a-button">Rutina A</button>
-    <button id="routine-b-button">Rutina B</button>
-</div>
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SL 5x5 Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <h1>Stronglifts 5x5 Tracker</h1>
 
-<div id="exercises-container">
-    <p class="placeholder-text">Selecciona una rutina per començar.</p>
-</div>
+        <div class="routine-selector">
+            <button id="routine-a-button">Rutina A</button>
+            <button id="routine-b-button">Rutina B</button>
+        </div>
 
-<div class="timer-container">
-    <h1 id="timer-display">1:30</h1> 
-    <button id="start-button">Començar Descans (90s)</button>
-    <button id="reset-button" style="display:none;">Reiniciar</button>
-</div>
+        <div id="exercises-container">
+            <p class="placeholder-text">Selecciona una rutina per començar.</p>
+        </div>
 
-<script src="script.js"></script>
+        <div class="timer-container">
+            <h2>Temps de Descans</h2>
+            <h1 id="timer-display">1:30</h1> 
+            <button id="start-button">Començar Descans (90s)</button>
+            <button id="reset-button" style="display:none;">Reiniciar</button>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

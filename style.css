@@ -1,0 +1,63 @@
+/* Estils per als selectors de rutina */
+.routine-selector {
+    margin-bottom: 20px;
+}
+
+.routine-selector button {
+    padding: 15px 25px;
+    font-size: 1.2em;
+    margin: 0 10px;
+    background-color: #5C6370; /* Gris */
+    color: white;
+}
+
+.routine-selector button.active {
+    background-color: #61afef; /* Blau, per indicar la selecció */
+    color: black;
+}
+
+/* Estils pel contenidor d'exercicis */
+#exercises-container {
+    padding: 20px 0;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+}
+
+.exercise-group {
+    margin-bottom: 30px;
+    background-color: #3c4048;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.exercise-group h3 {
+    font-size: 2em;
+    color: #98C379; /* Verd per destacar el nom de l'exercici */
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+/* Nou estil per a la casella de 'sèrie' dins d'un exercici */
+.series-item-dynamic {
+    /* Estils similars a 'series-item' anterior, però més petits si cal */
+    padding: 10px;
+    margin: 5px;
+    font-size: 1.2em;
+    display: inline-block; /* Per posar-les en fila */
+    background-color: #5C6370;
+    border-radius: 5px;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Estil per a la casella EXTRA */
+.series-item-dynamic.extra-box {
+    background-color: #E5C07B; /* Color groc/taronja per a destacar l'extra */
+    color: black;
+}
+
+.series-item-dynamic.completed {
+    background-color: #98C379;
+    color: black;
+}

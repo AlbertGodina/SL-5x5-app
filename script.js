@@ -1,83 +1,65 @@
-// --- Configuració de Rutines ---
-const ROUTINES = {
-    A: ['SQUAT (5x5)', 'BENCH PRESS (5x5)', 'DEADLIFT (1x5)'],
-    B: ['SQUAT (5x5)', 'MILITARY PRESS (5x5)', 'DEADLIFT (1x5)']
-};
+// --- Lògica del Temporitzador ---
+const START_TIME_SECONDS = 90; // 1 minut i 30 segons
 
-// --- Referències als nous elements del DOM ---
-const routineAButton = document.getElementById('routine-a-button');
-const routineBButton = document.getElementById('routine-b-button');
-const exercisesContainer = document.getElementById('exercises-container');
+let timeRemaining = START_TIME_SECONDS;
+let timerInterval = null;
+let isRunning = false;
 
-// Funció per generar les 5+1 caselles
-function createExerciseHTML(exerciseName) {
-    let html = `
-        <div class="exercise-group" data-exercise="${exerciseName}">
-            <h3>${exerciseName}</h3>
-    `;
-    
-    // El 5x5 (o 1x5 per al Deadlift)
-    const numSeries = exerciseName.includes('DEADLIFT') ? 1 : 5; 
+const timerDisplay = document.getElementById('timer-display');
+const startButton = document.getElementById('start-button');
+const resetButton = document.getElementById('reset-button');
 
-    for (let i = 1; i <= numSeries; i++) {
-        html += `<div class="series-item-dynamic" data-series="${i}">S${i}</div>`;
-    }
-    
-    // Afegim la casella EXTRA demanada
-    html += `<div class="series-item-dynamic extra-box" data-series="extra">EXTRA</div>`;
-
-    html += `</div>`;
-    return html;
+function formatTime(totalSeconds) {
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 }
 
-// Funció per carregar la rutina seleccionada
-function loadRoutine(routineKey) {
-    // 1. Netejar el contenidor
-    exercisesContainer.innerHTML = '';
-    
-    // 2. Marcar el botó actiu i desactivar l'altre
-    routineAButton.classList.remove('active');
-    routineBButton.classList.remove('active');
-    
-    if (routineKey === 'A') {
-        routineAButton.classList.add('active');
-    } else {
-        routineBButton.classList.add('active');
-    }
+function updateTimer() {
+    timeRemaining--;
+    timerDisplay.textContent = formatTime(timeRemaining);
 
-    // 3. Generar el HTML dels exercicis
-    ROUTINES[routineKey].forEach(exercise => {
-        exercisesContainer.innerHTML += createExerciseHTML(exercise);
-    });
-
-    // 4. Assignar els escoltadors d'esdeveniments als nous elements
-    document.querySelectorAll('.series-item-dynamic').forEach(item => {
-        item.addEventListener('click', markSeriesCompletedDynamic);
-    });
-}
-
-// Funció per marcar la sèrie (similar a l'anterior)
-function markSeriesCompletedDynamic(event) {
-    const seriesElement = event.target;
-    
-    // Si ja està feta, no fem res
-    if (seriesElement.classList.contains('completed')) {
-        return; 
-    }
-    
-    seriesElement.classList.add('completed');
-    seriesElement.textContent = '✔️'; 
-    
-    // **INTEGRACIÓ CLAU**: Iniciem el temporitzador només si no és la casella EXTRA
-    if (!seriesElement.classList.contains('extra-box')) {
-        resetTimer(); 
-        startTimer();
+    if (timeRemaining <= 0) {
+        clearInterval(timerInterval);
+        isRunning = false;
+        timerDisplay.textContent = "FET!"; // Missatge de finalització
+        startButton.style.display = 'none';
+        resetButton.style.display = 'inline-block';
     }
 }
 
-// --- Assignar esdeveniments per canviar de rutina ---
-routineAButton.addEventListener('click', () => loadRoutine('A'));
-routineBButton.addEventListener('click', () => loadRoutine('B'));
+// **FUNCIÓ CLAU (GLOBAL)**
+function startTimer() {
+    if (isRunning) return;
+    
+    // Assegura't que comença des de 90s si s'ha premut el botó manualment
+    if (timeRemaining <= 0) {
+        timeRemaining = START_TIME_SECONDS;
+    }
+    
+    isRunning = true;
+    startButton.style.display = 'none';
+    resetButton.style.display = 'none';
+    timerDisplay.textContent = formatTime(timeRemaining);
+    timerInterval = setInterval(updateTimer, 1000);
+}
 
-// Opcional: Carregar la rutina A per defecte en carregar la pàgina
-// loadRoutine('A');
+// **FUNCIÓ CLAU (GLOBAL)**
+function resetTimer() {
+    if (timerInterval) {
+        clearInterval(timerInterval);
+    }
+    isRunning = false;
+    timeRemaining = START_TIME_SECONDS;
+    timerDisplay.textContent = formatTime(timeRemaining);
+
+    // Torna a mostrar el botó de començar
+    startButton.textContent = 'Començar Descans (90s)';
+    startButton.style.display = 'inline-block';
+    resetButton.style.display = 'none';
+}
+
+// Inicialitzar i assignar esdeveniments del temporitzador manual
+resetTimer();
+startButton.addEventListener('click', startTimer);
+resetButton.addEventListener('click', resetTimer);

@@ -1,5 +1,5 @@
 // ==========================================================
-// 1. LÒGICA DEL TEMPORITZADOR (CONFIRMAT OK)
+// 1. LÒGICA DEL TEMPORITZADOR
 // ==========================================================
 const START_TIME_SECONDS = 90; // 1 minut i 30 segons
 
@@ -7,6 +7,7 @@ let timeRemaining = START_TIME_SECONDS;
 let timerInterval = null;
 let isRunning = false;
 
+// Referències del DOM
 const timerDisplay = document.getElementById('timer-display');
 const startButton = document.getElementById('start-button');
 const resetButton = document.getElementById('reset-button');
@@ -24,10 +25,10 @@ function updateTimer() {
     if (timeRemaining <= 0) {
         clearInterval(timerInterval);
         isRunning = false;
-        timerDisplay.textContent = "FET!"; // Missatge de finalització
+        timerDisplay.textContent = "FET!"; 
         startButton.style.display = 'none';
         resetButton.style.display = 'inline-block';
-        // Aquí podríem afegir un so d'alerta
+        // Aquí podríem afegir un so
     }
 }
 
@@ -58,20 +59,21 @@ function resetTimer() {
     resetButton.style.display = 'none';
 }
 
-// Inicialitzar i assignar esdeveniments del temporitzador manual
+// Inicialització del temporitzador manual
 resetTimer();
 startButton.addEventListener('click', startTimer);
 resetButton.addEventListener('click', resetTimer);
 
 
 // ==========================================================
-// 2. LÒGICA DE RUTINES I EXERCICIS (NOVA IMPLEMENTACIÓ)
+// 2. LÒGICA DE RUTINES I EXERCICIS
 // ==========================================================
 const ROUTINES = {
     A: ['SQUAT (5x5)', 'BENCH PRESS (5x5)', 'DEADLIFT (1x5)'],
     B: ['SQUAT (5x5)', 'MILITARY PRESS (5x5)', 'DEADLIFT (1x5)']
 };
 
+// Referències del DOM
 const routineAButton = document.getElementById('routine-a-button');
 const routineBButton = document.getElementById('routine-b-button');
 const exercisesContainer = document.getElementById('exercises-container');
@@ -85,15 +87,14 @@ function createExerciseHTML(exerciseName) {
             <h3>${exerciseName}</h3>
     `;
     
-    // El Deadlift és 1x5, la resta 5x5
+    // Deadlift és 1x5, la resta 5x5
     const numSeries = exerciseName.includes('DEADLIFT') ? 1 : 5; 
 
     for (let i = 1; i <= numSeries; i++) {
-        // Usarem la classe 'series-item-dynamic' que hem definit al CSS
         html += `<div class="series-item-dynamic" data-series="${i}">S${i}</div>`;
     }
     
-    // Afegim la casella EXTRA
+    // Casella EXTRA
     html += `<div class="series-item-dynamic extra-box" data-series="extra">EXTRA</div>`;
 
     html += `</div>`;
@@ -101,13 +102,13 @@ function createExerciseHTML(exerciseName) {
 }
 
 /**
- * Carrega la rutina seleccionada (A o B) al contenidor d'exercicis.
+ * Carrega la rutina seleccionada (A o B) i assigna els esdeveniments.
  */
 function loadRoutine(routineKey) {
     // 1. Netejar el contenidor
     exercisesContainer.innerHTML = '';
     
-    // 2. Marcar el botó actiu i desactivar l'altre (per feedback visual)
+    // 2. Marcar el botó actiu i desactivar l'altre
     routineAButton.classList.remove('active');
     routineBButton.classList.remove('active');
     
@@ -123,7 +124,6 @@ function loadRoutine(routineKey) {
     });
 
     // 4. Assignar els escoltadors d'esdeveniments als NOUS elements
-    // Això és crucial perquè els elements s'acaben de crear.
     document.querySelectorAll('.series-item-dynamic').forEach(item => {
         item.addEventListener('click', markSeriesCompletedDynamic);
     });
@@ -142,7 +142,7 @@ function markSeriesCompletedDynamic(event) {
     seriesElement.classList.add('completed');
     seriesElement.textContent = '✔️'; 
     
-    // INTEGRACIÓ TEMPORITZADOR
+    // INTEGRACIÓ TEMPORITZADOR (s'activa si no és la casella EXTRA)
     if (!seriesElement.classList.contains('extra-box')) {
         resetTimer(); 
         startTimer();
@@ -150,12 +150,9 @@ function markSeriesCompletedDynamic(event) {
 }
 
 // ==========================================================
-// 3. ASSIGNACIÓ D'ESDEVENIMENTS (SOLUCIÓ AL PROBLEMA)
+// 3. INICIALITZACIÓ
 // ==========================================================
 
 // Enllaçar els botons de Rutina A i B amb la funció loadRoutine
 routineAButton.addEventListener('click', () => loadRoutine('A'));
 routineBButton.addEventListener('click', () => loadRoutine('B'));
-
-// Opcional: Si vols que hi hagi una rutina carregada per defecte en obrir l'app
-// loadRoutine('A');
